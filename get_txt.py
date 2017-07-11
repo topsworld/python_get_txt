@@ -99,7 +99,7 @@ def get_txt(txt_id,start_page):
         #print("第一章地址寻找成功："+ first_page)
         txt_section=first_page                                                                  #设置现在下载小说章节页面
         write_txt_intro(txt,start_page)
-        fo = open('{0:0>8}'.format(txt['id'])+'-'+txt['title'] + '.txt.download', "ab+")         #打开小说文件
+        fo = open('{0:0>8}-{1}.txt.download'.format(txt['id'],txt['title']), "ab+")         #打开小说文件
         fo.write((txt['title']+"\r\n").encode('UTF-8'))
         fo.write((txt['author'] + "\r\n").encode('UTF-8'))
         fo.write((txt['update'] + "\r\n").encode('UTF-8'))
@@ -127,7 +127,7 @@ def get_txt(txt_id,start_page):
             except:
                 print("编号："+'{0:0>8}   '.format(txt['id'])+  "小说名：《"+txt['title']+"》 章节下载失败，正在重新下载。")
         fo.close()
-        os.rename('{0:0>8}'.format(txt['id'])+'-'+txt['title'] + '.txt.download', '{0:0>8}'.format(txt['id'])+'-'+txt['title'] + '.txt')
+        os.rename('{0:0>8}-{1}.txt.download'.format(txt['id'],txt['title']), '{0:0>8}-{1}.txt'.format(txt['id'],txt['title']))
     except:
         fo_err = open('dowload.log', "ab+")
         try:

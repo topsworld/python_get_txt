@@ -5,7 +5,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;本文是一个教程，一步步介绍了如何爬取批量小说内容以及存储这是txt文件中，以下是项目源码地址。
 爬虫源码地址：https://git.oschina.net/XPSWorld/get_txt.git
 <br>
-####**1.使用到库文件**
+#### <table><tr><td bgcolor=30c3f4><font color=white>**1.使用到库文件**</font></td></tr></table>
 
 - requests：用于get请求
 - threading：多线程
@@ -24,12 +24,12 @@ import os
 import time
 ```
 <br><br>
-####**2.对网页文件结构进行分析（PS：浏览器使用的是谷歌浏览器）**
+#### <table><tr><td bgcolor=30c3f4><font color=white>**2.对网页文件结构进行分析（PS：浏览器使用的是谷歌浏览器）**</font></td></tr></table>
 &nbsp;&nbsp;&nbsp;&nbsp;通过对 **http://www.qu.la/** 的文件结构进行分析，知道了每一本小说的目录地址为该地址加上**book/**,再加上对应的小说编号，如编号为1的小说地址为**http://www.qu.la/book/1/**，在浏览器打开该网址，就可以看到如下类似的界面
 ![显示界面](http://img.blog.csdn.net/20170713140807437?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 &nbsp;&nbsp;&nbsp;&nbsp;以此类推就可以知道每一本的小说地址。
 <br><br>
-####**3.获取网页的请求头文件**
+#### <table><tr><td bgcolor=30c3f4><font color=white>**3.获取网页的请求头文件**</font></td></tr></table>
 &nbsp;&nbsp;&nbsp;&nbsp;我们以编号为1的小说地址为例（**http://www.qu.la/book/1/**），打开谷歌的开发者工具，选择Network，会出现如下界面，如果没有对应的列表信息，刷新一下网页即可。
 ![这里写图片描述](http://img.blog.csdn.net/20170713141347622?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 <br><br>
@@ -52,7 +52,7 @@ req_header={
 }
 ```
 <br><br>
-####**4.分析每章小说网页结构**
+#### <table><tr><td bgcolor=30c3f4><font color=white>**4.分析每章小说网页结构**</font></td></tr></table>
 &nbsp;&nbsp;&nbsp;&nbsp;每一本小说多有对应的章节网页，也就说每一张都有对应的网页，我们以编号为1的小说中任意章节为例，其地址信息为**http://www.qu.la/book/1/260824.html**，其中“**260824.html**”就是该章节的网页名称，点击开发者工具中的 **Element** 选项，以下是对应的截图信息，通过分析，小说章节信息的路径为：**#wrapper .content_read .box_con**  （PS：其中“#wrapper”号表示id为wrapper的项，“.content_read”表示class为content_read的项，按照此顺序放在一起就表示id为wrapper的项中的class为content_read的项中的class为con_box的相关信息，三者为树形关系。）
 &nbsp;&nbsp;&nbsp;&nbsp;在该路径下，我们需要的信息主要有三项，以下是对应的class内容以及对应的说明：
 
@@ -62,7 +62,7 @@ req_header={
 
 ![这里写图片描述](http://img.blog.csdn.net/20170713151404099?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 <br><br>
-####**5.获取单独一章内容**
+#### <table><tr><td bgcolor=30c3f4><font color=white>**5.获取单独一章内容**</font></td></tr></table>
 &nbsp;&nbsp;&nbsp;&nbsp;对于BeautifulSoup不是特别了解的，可以先阅读以下几篇文章：
 
 - [Beautiful Soup 的用法](http://wiki.jikexueyuan.com/project/python-crawler-guide/beautiful-soup.html)
@@ -94,7 +94,7 @@ print("章节内容：\n"+section_text)
 运行效果截图：
 ![文本输出](http://img.blog.csdn.net/20170713155455046?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 <br><br>
-####**6.将获取的文本信息写入txt文件中**
+#### <table><tr><td bgcolor=30c3f4><font color=white>**6.将获取的文本信息写入txt文件中**</font></td></tr></table>
 &nbsp;&nbsp;&nbsp;&nbsp;在实际操作之前，如果大家对于文件操作以及编码转换不是很了解的，可以先看看以下两篇文章：
 
 - [python encode和decode函数说明](http://www.cnblogs.com/evening/archive/2012/04/19/2457440.html)
@@ -110,7 +110,7 @@ fo.write((section_text).encode('UTF-8'))
 fo.close()        #关闭小说文件
 ```
 <br><br>
-####**7.获取整本小说**
+#### <table><tr><td bgcolor=30c3f4><font color=white>**7.获取整本小说**</font></td></tr></table>
 &nbsp;&nbsp;&nbsp;&nbsp;通过前面几个步骤，我们知道了如何获取单章小说相关信息写入txt中，接下来获取整本小说内容就是在其基础上进行改进的，我们将通过一个函数来实现获取整本内容，以下是函数代码：
 ```
 #小说下载函数
@@ -212,14 +212,14 @@ def get_txt(txt_id):
 运行效果
 ![运行效果](http://img.blog.csdn.net/20170713164212755?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 <br><br>
-####**8.多线程爬取多本小说**
+#### <table><tr><td bgcolor=30c3f4><font color=white>**8.多线程爬取多本小说**</font></td></tr></table>
 &nbsp;&nbsp;&nbsp;&nbsp;同样的，在此之前如果对于python线程不了解的可以阅读以下文章：
 
 - [Python 多线程](http://www.runoob.com/python/python-multithreading.html)
 
 &nbsp;&nbsp;&nbsp;&nbsp;关于多线程的代码就不过多介绍了，在项目源码中会有相关的使用方法。（PS：通过实验，每次同步下载100本小说最好，太多的话进程可能会被杀死）
 <br><br>
-####**9.最终效果**
+#### <table><tr><td bgcolor=30c3f4><font color=white>**9.最终效果**</font></td></tr></table>
 &nbsp;&nbsp;&nbsp;&nbsp;最终的源码实现如下效果：
 
 - 每次同步爬取100本小说
@@ -239,6 +239,133 @@ download.log文件内容：
 
 小说简介文件内容：
 ![小说简介文件内容](http://img.blog.csdn.net/20170713170709871?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<br>
+#### <table><tr><td bgcolor=30c3f4><font color=white>**10.其他（教程源码）**</font></td></tr></table>
+&nbsp;&nbsp;&nbsp;&nbsp;鉴于有朋友说提供的项目源码（多线程多本）与教程（单线程单本）不符，所将以上教程中单本小说下载的源码贴上，大家可以直接复制运行。
+
+```
+#coding:utf-8
+import  requests
+import threading
+from bs4 import BeautifulSoup
+import re
+import os
+import time
+import sys
+req_header={
+'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+'Accept-Encoding':'gzip, deflate',
+'Accept-Language':'zh-CN,zh;q=0.8',
+'Cookie':'__cfduid=d577ccecf4016421b5e2375c5b446d74c1499765327; UM_distinctid=15d30fac6beb80-0bdcc291c89c17-9383666-13c680-15d30fac6bfa28; CNZZDATA1261736110=1277741675-1499763139-null%7C1499763139; tanwanhf_9821=1; Hm_lvt_5ee23c2731c7127c7ad800272fdd85ba=1499612614,1499672399,1499761334,1499765328; Hm_lpvt_5ee23c2731c7127c7ad800272fdd85ba=1499765328; tanwanpf_9817=1; bdshare_firstime=1499765328088',
+'Host':'www.qu.la',
+'Proxy-Connection':'keep-alive',
+'Referer':'http://www.qu.la/book/',
+'Upgrade-Insecure-Requests':'1',
+'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36'
+}
+
+
+req_url_base='http://www.qu.la/book/'           #小说主地址
+
+#小说下载函数
+#txt_id：小说编号
+#txt字典项介绍
+#id：小说编号
+# title：小说题目
+# first_page：第一章页面
+# txt_section：章节地址
+# section_name：章节名称
+# section_text：章节正文
+# section_ct：章节页数
+def get_txt(txt_id):
+    txt={}
+    txt['title']=''
+    txt['id']=str(txt_id)
+    try:
+        #print("请输入需要下载的小说编号：")
+        #txt['id']=input()
+        req_url=req_url_base+ txt['id']+'/'                        #根据小说编号获取小说URL
+        print("小说编号："+txt['id'])
+        res=requests.get(req_url,params=req_header)             #获取小说目录界面
+        soups=BeautifulSoup(res.text,"html.parser")           #soup转化
+        #获取小说题目
+        txt['title']=soups.select('#wrapper .box_con #maininfo #info h1')[0].text
+        txt['author']=soups.select('#wrapper .box_con #maininfo #info p')
+        #获取小说最近更新时间
+        txt['update']=txt['author'][2].text
+        #获取最近更新章节名称
+        txt['lately'] = txt['author'][3].text
+        #获取小说作者
+        txt['author']=txt['author'][0].text
+        #获取小说简介
+        txt['intro']=soups.select('#wrapper .box_con #maininfo #intro')[0].text.strip()
+        print("编号："+'{0:0>8}   '.format(txt['id'])+  "小说名：《"+txt['title']+"》  开始下载。")
+        print("正在寻找第一章页面。。。")
+        #获取小说所有章节信息
+        first_page=soups.select('#wrapper .box_con #list dl dd a')
+        #获取小说总章页面数
+        section_ct=len(first_page)
+        #获取小说第一章页面地址
+        first_page = first_page[0]['href'].split('/')[3]
+        print("小说章节页数："+str(section_ct))
+        print("第一章地址寻找成功："+ first_page)
+        #设置现在下载小说章节页面
+        txt_section=first_page
+        #打开小说文件写入小说相关信息
+        fo = open('{0:0>8}-{1}.txt.download'.format(txt['id'],txt['title']), "ab+")
+        fo.write((txt['title']+"\r\n").encode('UTF-8'))
+        fo.write((txt['author'] + "\r\n").encode('UTF-8'))
+        fo.write((txt['update'] + "\r\n").encode('UTF-8'))
+        fo.write((txt['lately'] + "\r\n").encode('UTF-8'))
+        fo.write(("*******简介*******\r\n").encode('UTF-8'))
+        fo.write(("\t"+txt['intro'] + "\r\n").encode('UTF-8'))
+        fo.write(("******************\r\n").encode('UTF-8'))
+        #进入循环，写入每章内容
+        while(1):
+            try:
+                #请求当前章节页面
+                r=requests.get(req_url+str(txt_section),params=req_header)
+                #soup转换
+                soup=BeautifulSoup(r.text,"html.parser")
+                #获取章节名称
+                section_name=soup.select('#wrapper .content_read .box_con .bookname h1')[0]
+                section_text=soup.select('#wrapper .content_read .box_con #content')[0]
+                for ss in section_text.select("script"):   #删除无用项
+                    ss.decompose()
+                #获取章节文本
+                section_text=re.sub( '\s+', '\r\n\t', section_text.text).strip('\r\n')#
+                #获取下一章地址
+                txt_section=soup.select('#wrapper .content_read .box_con .bottem2 #A3')[0]['href']
+                #判断是否最后一章，当为最后一章时，会跳转至目录地址，最后一章则跳出循环
+                if(txt_section=='./'):
+                    print("编号："+'{0:0>8}   '.format(txt['id'])+  "小说名：《"+txt['title']+"》 下载完成")
+                    break
+                #以二进制写入章节题目
+                fo.write(('\r'+section_name.text+'\r\n').encode('UTF-8'))
+                #以二进制写入章节内容
+                fo.write((section_text).encode('UTF-8'))
+                print(txt['title']+' 章节：'+section_name.text+'     已下载')
+                #print(section_text.text.encode('UTF-8'))
+            except:
+                print("编号："+'{0:0>8}   '.format(txt['id'])+  "小说名：《"+txt['title']+"》 章节下载失败，正在重新下载。")
+        fo.close()
+        os.rename('{0:0>8}-{1}.txt.download'.format(txt['id'],txt['title']), '{0:0>8}-{1}.txt'.format(txt['id'],txt['title']))
+    except:     #出现错误会将错误信息写入dowload.log文件，同时答应出来
+        fo_err = open('dowload.log', "ab+")
+        try:
+            fo_err.write(('['+time.strftime('%Y-%m-%d %X', time.localtime())+"]：编号：" + '{0:0>8}   '.format(txt['id']) + "小说名：《" + txt['title'] + "》 下载失败。\r\n").encode('UTF-8'))
+            print('['+time.strftime('%Y-%m-%d %X', time.localtime())+"]：编号："+'{0:0>8}   '.format(txt['id'])+  "小说名：《"+txt['title']+"》 下载失败。")
+            os.rename('{0:0>8}'.format(txt['id']) + '-' + txt['title'] + '.txt.download',
+                  '{0:0>8}'.format(txt['id']) + '-' + txt['title'] + '.txt.error')
+        except:
+            fo_err.write(('['+time.strftime('%Y-%m-%d %X', time.localtime())+"]：编号："+'{0:0>8}   '.format(txt['id'])+"下载失败。\r\n").encode('UTF-8'))
+            print('['+time.strftime('%Y-%m-%d %X', time.localtime())+"]：编号："+'{0:0>8}   '.format(txt['id'])+"下载失败。")
+        finally: #关闭文件
+            fo_err.close()
+
+#此处为需要下载小说的编号，编号获取方法在上文中已经讲过。
+get_txt(1150)
+```
 
 &nbsp;&nbsp;&nbsp;&nbsp;文章有那块不对的地方，希望大家帮忙指正改进。	
 

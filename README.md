@@ -1,7 +1,8 @@
 原文地址： [点击跳转](https://blog.csdn.net/baidu_26678247/article/details/75086587#commentsedit)
 <br>
-##**Python爬虫系列**
-###——爬取小说并写入txt文件
+## **Python爬虫系列**
+
+### ——爬取小说并写入txt文件
 <br><br>
 &nbsp;&nbsp;&nbsp;&nbsp;文章介绍了如何从网站中爬取小说并写入txt文件中，实现了单章节写取，整本写取，多线程多本写取。爬虫使用的python版本为python3，有些系统使用python指令运行本脚本，可能出现错误，此时可以试一试使用python3运行本脚本。
 &nbsp;&nbsp;&nbsp;&nbsp;本文是一个教程，一步步介绍了如何爬取批量小说内容以及存储这是txt文件中，以下是项目源码地址。

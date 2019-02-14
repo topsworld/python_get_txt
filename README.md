@@ -1,9 +1,10 @@
-原文地址： [点击跳转](https://blog.csdn.net/baidu_26678247/article/details/75086587#commentsedit)
-<br>
 ## **Python爬虫系列**
-
 ### ——爬取小说并写入txt文件
-<br><br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;本教程使用的单线程单本下载小说代码会不定期维护，最新源码及相关教程以CSDN博客为主，教程所说的多线程多本由于博主时间有限，暂时不做维护，仅作为一个教程供大家参考，感兴趣的朋友可以在此基础上做一个UI，便于下载；单线程单本代码见文末或**码云>>get_one_txt.py**文件，以下是维护日志：
+
+- 2019.02.14：单线程单本源码可用，修改爬取规则已解决部分小说无法下载。
+
 &nbsp;&nbsp;&nbsp;&nbsp;文章介绍了如何从网站中爬取小说并写入txt文件中，实现了单章节写取，整本写取，多线程多本写取。爬虫使用的python版本为python3，有些系统使用python指令运行本脚本，可能出现错误，此时可以试一试使用python3运行本脚本。
 &nbsp;&nbsp;&nbsp;&nbsp;本文是一个教程，一步步介绍了如何爬取批量小说内容以及存储这是txt文件中，以下是项目源码地址。
 爬虫源码地址：https://git.oschina.net/XPSWorld/get_txt.git
@@ -303,17 +304,12 @@ def get_txt(txt_id):
         #获取小说简介
         txt['intro']=soups.select('#wrapper .box_con #maininfo #intro')[0].text.strip()
         print("编号："+'{0:0>8}   '.format(txt['id'])+  "小说名：《"+txt['title']+"》  开始下载。")
-        print("正在寻找第一章页面。。。")
+        print("正在获取所有章节地址。。。")
         #获取小说所有章节信息
-        first_page=soups.select('#wrapper .box_con #list dl dd a')
+        all_page_address=soups.select('#wrapper .box_con #list dl dd a')
         #获取小说总章页面数
-        section_ct=len(first_page)
-        #获取小说第一章页面地址
-        first_page = first_page[0]['href'].split('/')[3]
+        section_ct=len(all_page_address)
         print("小说章节页数："+str(section_ct))
-        print("第一章地址寻找成功："+ first_page)
-        #设置现在下载小说章节页面
-        txt_section=first_page
         #打开小说文件写入小说相关信息
         fo = open('{0:0>8}-{1}.txt.download'.format(txt['id'],txt['title']), "ab+")
         fo.write((txt['title']+"\r\n").encode('UTF-8'))
@@ -323,11 +319,11 @@ def get_txt(txt_id):
         fo.write(("*******简介*******\r\n").encode('UTF-8'))
         fo.write(("\t"+txt['intro'] + "\r\n").encode('UTF-8'))
         fo.write(("******************\r\n").encode('UTF-8'))
-        #进入循环，写入每章内容
-        while(1):
+        #获取每一章节信息
+        for one_page_info in all_page_address:
             try:
                 #请求当前章节页面
-                r=requests.get(req_url+str(txt_section),params=req_header)
+                r=requests.get(req_url+str(one_page_info['href']),params=req_header)
                 #soup转换
                 soup=BeautifulSoup(r.text,"html.parser")
                 #获取章节名称
@@ -337,12 +333,6 @@ def get_txt(txt_id):
                     ss.decompose()
                 #获取章节文本
                 section_text=re.sub( '\s+', '\r\n\t', section_text.text).strip('\r\n')#
-                #获取下一章地址
-                txt_section=soup.select('#wrapper .content_read .box_con .bottem2 #A3')[0]['href']
-                #判断是否最后一章，当为最后一章时，会跳转至目录地址，最后一章则跳出循环
-                if(txt_section=='./'):
-                    print("编号："+'{0:0>8}   '.format(txt['id'])+  "小说名：《"+txt['title']+"》 下载完成")
-                    break
                 #以二进制写入章节题目
                 fo.write(('\r'+section_name.text+'\r\n').encode('UTF-8'))
                 #以二进制写入章节内容
@@ -367,11 +357,10 @@ def get_txt(txt_id):
             fo_err.close()
 
 #此处为需要下载小说的编号，编号获取方法在上文中已经讲过。
-get_txt(1150)
+get_txt(87176)
 ```
 
 &nbsp;&nbsp;&nbsp;&nbsp;文章有那块不对的地方，希望大家帮忙指正改进。	
-
 
 
 

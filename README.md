@@ -1,15 +1,18 @@
-CSDN博文地址：[https://blog.csdn.net/baidu_26678247/article/details/75086587](https://blog.csdn.net/baidu_26678247/article/details/75086587)
-
 ## **Python爬虫系列**
 ### ——爬取小说并写入txt文件
 <br>
+
 &nbsp;&nbsp;&nbsp;&nbsp;本教程使用的单线程单本下载小说代码会不定期维护，最新源码及相关教程以CSDN博客为主，教程所说的多线程多本由于博主时间有限，暂时不做维护，仅作为一个教程供大家参考，感兴趣的朋友可以在此基础上做一个UI，便于下载；单线程单本代码见文末或**码云>>get_one_txt.py**文件，以下是维护日志：
 
 - 2019.02.14：单线程单本源码可用，修改爬取规则已解决部分小说无法下载。
 
 &nbsp;&nbsp;&nbsp;&nbsp;文章介绍了如何从网站中爬取小说并写入txt文件中，实现了单章节写取，整本写取，多线程多本写取。爬虫使用的python版本为python3，有些系统使用python指令运行本脚本，可能出现错误，此时可以试一试使用python3运行本脚本。
 &nbsp;&nbsp;&nbsp;&nbsp;本文是一个教程，一步步介绍了如何爬取批量小说内容以及存储这是txt文件中，以下是项目源码地址。
-爬虫源码地址：https://git.oschina.net/XPSWorld/get_txt.git
+
+&nbsp;&nbsp;&nbsp;&nbsp;爬虫源码地址：https://git.oschina.net/XPSWorld/get_txt.git
+
+&nbsp;&nbsp;&nbsp;&nbsp; C#版带界面爬虫说明：[https://blog.csdn.net/baidu_26678247/article/details/100174059](https://blog.csdn.net/baidu_26678247/article/details/100174059)
+&nbsp;&nbsp;&nbsp;&nbsp; C#版带界面爬虫源码：[https://gitee.com/XPSWorld/sworld_reading](https://gitee.com/XPSWorld/sworld_reading)
 <br>
 #### <table><tr><td bgcolor=30c3f4><font color=white>**1.使用到库文件**</font></td></tr></table>
 
@@ -32,15 +35,15 @@ import time
 <br><br>
 #### <table><tr><td bgcolor=30c3f4><font color=white>**2.对网页文件结构进行分析（PS：浏览器使用的是谷歌浏览器）**</font></td></tr></table>
 &nbsp;&nbsp;&nbsp;&nbsp;通过对 **http://www.qu.la/** 的文件结构进行分析，知道了每一本小说的目录地址为该地址加上**book/**,再加上对应的小说编号，如编号为1的小说地址为**http://www.qu.la/book/1/**，在浏览器打开该网址，就可以看到如下类似的界面
-![显示界面](http://img.blog.csdn.net/20170713140807437?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![显示界面](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwNzEzMTQwODA3NDM3?x-oss-process=image/format,png)
 &nbsp;&nbsp;&nbsp;&nbsp;以此类推就可以知道每一本的小说地址。
 <br><br>
 #### <table><tr><td bgcolor=30c3f4><font color=white>**3.获取网页的请求头文件**</font></td></tr></table>
 &nbsp;&nbsp;&nbsp;&nbsp;我们以编号为1的小说地址为例（**http://www.qu.la/book/1/**），打开谷歌的开发者工具，选择Network，会出现如下界面，如果没有对应的列表信息，刷新一下网页即可。
-![这里写图片描述](http://img.blog.csdn.net/20170713141347622?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![这里写图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwNzEzMTQxMzQ3NjIy?x-oss-process=image/format,png)
 <br><br>
 &nbsp;&nbsp;&nbsp;&nbsp;然后点击**1/**,出现以下信息：
-![这里写图片描述](http://img.blog.csdn.net/20170713141522102?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![这里写图片描述](https://images.gitee.com/uploads/images/2019/0831/162440_5e30d1d2_857520.jpeg)
 
 &nbsp;&nbsp;&nbsp;&nbsp;我们需要的是第二个方框中的内容（**Request Headers**），将该目录下的信息取出，存放到字典中，其中每一个项所代表的意义如果感兴趣可自行网上搜索（[HTTP Header 详解](https://kb.cnblogs.com/page/92320/)）。
 ```
@@ -66,7 +69,7 @@ req_header={
 - content：可获取章节内容
 - bottom2：可获取下一章节地址
 
-![这里写图片描述](http://img.blog.csdn.net/20170713151404099?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![这里写图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwNzEzMTUxNDA0MDk5?x-oss-process=image/format,png)
 <br><br>
 #### <table><tr><td bgcolor=30c3f4><font color=white>**5.获取单独一章内容**</font></td></tr></table>
 &nbsp;&nbsp;&nbsp;&nbsp;对于BeautifulSoup不是特别了解的，可以先阅读以下几篇文章：
@@ -98,7 +101,7 @@ print('章节名:'+section_name)
 print("章节内容：\n"+section_text)
 ```
 运行效果截图：
-![文本输出](http://img.blog.csdn.net/20170713155455046?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![文本输出](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwNzEzMTU1NDU1MDQ2?x-oss-process=image/format,png)
 <br><br>
 #### <table><tr><td bgcolor=30c3f4><font color=white>**6.将获取的文本信息写入txt文件中**</font></td></tr></table>
 &nbsp;&nbsp;&nbsp;&nbsp;在实际操作之前，如果大家对于文件操作以及编码转换不是很了解的，可以先看看以下两篇文章：
@@ -216,7 +219,7 @@ def get_txt(txt_id):
 ```
 &nbsp;&nbsp;&nbsp;&nbsp;如果有需要爬取的相关小说，只需要在该网站找到小说编号，然后调用该函数就可以将小说下载至本电脑，如需下载编号为6666的小说，则调用`get_txt(6666)`即可，在下载过程中，文件后缀为“.txt.download”，下载完成后会将文件后缀变为“.txt”。
 运行效果
-![运行效果](http://img.blog.csdn.net/20170713164212755?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![运行效果](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwNzEzMTY0MjEyNzU1?x-oss-process=image/format,png)
 <br><br>
 #### <table><tr><td bgcolor=30c3f4><font color=white>**8.多线程爬取多本小说**</font></td></tr></table>
 &nbsp;&nbsp;&nbsp;&nbsp;同样的，在此之前如果对于python线程不了解的可以阅读以下文章：
@@ -234,17 +237,17 @@ def get_txt(txt_id):
 - 小说还未下载完文件后缀为“.txt.download”，下载完成后会将文件后缀变为“.txt”
 
 以下是运行效果图：
-![运行效果图](http://img.blog.csdn.net/20170713170010314?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![运行效果图](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwNzEzMTcwMDEwMzE0?x-oss-process=image/format,png)
 <br>
-![运行结果图](http://img.blog.csdn.net/20170713170024377?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![运行结果图](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwNzEzMTcwMDI0Mzc3?x-oss-process=image/format,png)
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;在运行结果图中，标号为1的部分是已经爬取完成的小说；编号为2的为还在下载的小说；编号为3的文件是下载错误日志，当不存在相关编号小说，则会记录在该文件中，下图为文件内容；编号为4的为每100本小说的简介，在我们通过该脚本，就可以知道所爬取的小说有哪些，通过然后通过编号就可以找到对应小说，下图同样展示其相关内容。
 
 download.log文件内容：
-![download.log文件内容](http://img.blog.csdn.net/20170713170614964?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![download.log文件内容](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwNzEzMTcwNjE0OTY0?x-oss-process=image/format,png)
 
 小说简介文件内容：
-![小说简介文件内容](http://img.blog.csdn.net/20170713170709871?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYmFpZHVfMjY2NzgyNDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![小说简介文件内容](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwNzEzMTcwNzA5ODcx?x-oss-process=image/format,png)
 <br>
 #### <table><tr><td bgcolor=30c3f4><font color=white>**10.其他（教程源码）**</font></td></tr></table>
 &nbsp;&nbsp;&nbsp;&nbsp;鉴于有朋友说提供的项目源码（多线程多本）与教程（单线程单本）不符，所将以上教程中单本小说下载的源码贴上，大家可以直接复制运行。

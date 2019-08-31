@@ -10,6 +10,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;本文是一个教程，一步步介绍了如何爬取批量小说内容以及存储这是txt文件中，以下是项目源码地址。
 
 &nbsp;&nbsp;&nbsp;&nbsp;爬虫源码地址：https://git.oschina.net/XPSWorld/get_txt.git
+
 &nbsp;&nbsp;&nbsp;&nbsp;博客文章地址：https://blog.csdn.net/baidu_26678247/article/details/75086587
 
 &nbsp;&nbsp;&nbsp;&nbsp; C#版带界面爬虫说明：[https://blog.csdn.net/baidu_26678247/article/details/100174059](https://blog.csdn.net/baidu_26678247/article/details/100174059)
